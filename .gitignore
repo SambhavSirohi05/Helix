@@ -8,3 +8,8 @@ test_state.o
 # Swift PM build directory
 .build/
 .swiftpm/
+
+# Runtime and test directories
+Bottles/
+TestGame/
+

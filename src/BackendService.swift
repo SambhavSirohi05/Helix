@@ -84,10 +84,14 @@ class BackendService {
     }
     
     // Execute shell command asynchronously (for launching games)
-    func runCommandAsync(executable: String, arguments: [String], environment: [String: String] = [:]) {
+    func runCommandAsync(executable: String, arguments: [String], environment: [String: String] = [:], workingDirectory: String? = nil) {
         let process = Process()
         process.executableURL = URL(fileURLWithPath: executable)
         process.arguments = arguments
+        
+        if let workDir = workingDirectory {
+            process.currentDirectoryURL = URL(fileURLWithPath: workDir)
+        }
         
         var env = ProcessInfo.processInfo.environment
         for (key, val) in environment {
@@ -180,7 +184,11 @@ class BackendService {
         }
         
         let args = [exePath] + arguments.split(separator: " ").map(String.init)
-        runCommandAsync(executable: winePath, arguments: args, environment: env)
+        
+        let exeURL = URL(fileURLWithPath: exePath)
+        let workingDirectory = exeURL.deletingLastPathComponent().path
+        
+        runCommandAsync(executable: winePath, arguments: args, environment: env, workingDirectory: workingDirectory)
     }
     
     // Launch Wine utility helper
@@ -191,7 +199,8 @@ class BackendService {
         runCommandAsync(
             executable: utilityPath,
             arguments: [],
-            environment: ["WINEPREFIX": bottle.path]
+            environment: ["WINEPREFIX": bottle.path],
+            workingDirectory: binDir.path
         )
     }
 }
