@@ -183,6 +183,17 @@ class BackendService {
             env["WINEMSYNC"] = "1"
         }
         
+        var overrides: [String] = []
+        if bottle.dxvkEnabled {
+            overrides.append(contentsOf: ["d3d9", "d3d10core", "d3d11", "dxgi"])
+        }
+        if bottle.vkd3dEnabled {
+            overrides.append("d3d12")
+        }
+        if !overrides.isEmpty {
+            env["WINEDLLOVERRIDES"] = overrides.map { "\($0)=n,b" }.joined(separator: ";")
+        }
+        
         let args = [exePath] + arguments.split(separator: " ").map(String.init)
         
         let exeURL = URL(fileURLWithPath: exePath)
