@@ -1,0 +1,10 @@
+# Compiled binaries and macOS files
+Helix
+test_state.o
+*.o
+*.app/
+.DS_Store
+
+# Swift PM build directory
+.build/
+.swiftpm/
