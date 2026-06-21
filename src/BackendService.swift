@@ -22,7 +22,9 @@ class BackendService {
     // Check if Wine is already installed in Homebrew paths
     var isWineInstalled: Bool {
         let paths = [
+            "/opt/homebrew/bin/wine",
             "/opt/homebrew/bin/wine64",
+            "/usr/local/bin/wine",
             "/usr/local/bin/wine64"
         ]
         for path in paths {
@@ -35,7 +37,9 @@ class BackendService {
     
     var installedWinePath: String {
         let paths = [
+            "/opt/homebrew/bin/wine",
             "/opt/homebrew/bin/wine64",
+            "/usr/local/bin/wine",
             "/usr/local/bin/wine64"
         ]
         for path in paths {
